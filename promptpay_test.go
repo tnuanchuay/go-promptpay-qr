@@ -5,35 +5,52 @@ import (
 	"testing"
 )
 
-func TestSanitizePhoneNumber12345678901234ShouldReturnErrInvalidPhoneNumber(t *testing.T){
+func TestGenerate(t *testing.T) {
+	r, _ := Generate(
+		MULTIPLE_USE,
+		MERCHANT_PRESENTED_QR,
+		SUBTAG_MOBILE_NUMBER,
+		"0066000000000",
+		THAILAND,
+		THAI_BAHT,
+		0)
+
+	e := "00020101021129370016A000000677010111011300660000000005802TH530376463048956"
+
+	if e != r {
+		t.Errorf("expect %s actual %s", e, r)
+	}
+}
+
+func TestSanitizePhoneNumber12345678901234ShouldReturnErrInvalidPhoneNumber(t *testing.T) {
 	_, err := sanitizePhoneNumber("12345678901234", "66")
 	if err != ErrInvalidPhoneNumber {
 		t.Errorf("expect %v actual %v", ErrInvalidPhoneNumber, err)
 	}
 }
 
-func TestSanitizePhoneNumber0166800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T){
+func TestSanitizePhoneNumber0166800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T) {
 	_, err := sanitizePhoneNumber("0166800000000", "66")
 	if err != ErrInvalidPhoneNumber {
 		t.Errorf("expect %v actual %v", ErrInvalidPhoneNumber, err)
 	}
 }
 
-func TestSanitizePhoneNumber110800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T){
+func TestSanitizePhoneNumber110800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T) {
 	_, err := sanitizePhoneNumber("110800000000", "66")
 	if err != ErrInvalidPhoneNumber {
 		t.Errorf("expect %v actual %v", ErrInvalidPhoneNumber, err)
 	}
 }
 
-func TestSanitizePhoneNumber11800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T){
+func TestSanitizePhoneNumber11800000000_66ShouldReturnErrInvalidPhoneNumber(t *testing.T) {
 	_, err := sanitizePhoneNumber("11800000000", "66")
 	if err != ErrInvalidPhoneNumber {
 		t.Errorf("expect %v actual %v", ErrInvalidPhoneNumber, err)
 	}
 }
 
-func TestSanitizePhoneNumber1234567890ShouldReturnErrInvalidPhoneNumber(t *testing.T){
+func TestSanitizePhoneNumber1234567890ShouldReturnErrInvalidPhoneNumber(t *testing.T) {
 	_, err := sanitizePhoneNumber("1234567890", "66")
 	if err != ErrInvalidPhoneNumber {
 		t.Errorf("expect %v actual %v", ErrInvalidPhoneNumber, err)
