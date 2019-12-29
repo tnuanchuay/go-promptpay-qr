@@ -1,6 +1,6 @@
 package go_promptpay_qr
 
-type promptPayBuilder struct {
+type PromptPayBuilder struct {
 	initiationMethod string
 	aid              string
 	targetType       string
@@ -10,14 +10,14 @@ type promptPayBuilder struct {
 	amount           float64
 }
 
-func NewBuilder() *promptPayBuilder {
-	return &promptPayBuilder{
+func NewBuilder() *PromptPayBuilder {
+	return &PromptPayBuilder{
 		initiationMethod: SINGLE_USE,
 		aid:              MERCHANT_PRESENTED_QR,
 	}
 }
 
-func (p *promptPayBuilder) Build() (string, error) {
+func (p *PromptPayBuilder) Build() (string, error) {
 	return Generate(
 		p.initiationMethod,
 		p.aid,
@@ -28,28 +28,28 @@ func (p *promptPayBuilder) Build() (string, error) {
 		p.amount)
 }
 
-func (p *promptPayBuilder) WithAmount(amount float64) *promptPayBuilder {
+func (p *PromptPayBuilder) WithAmount(amount float64) *PromptPayBuilder {
 	p.amount = amount
 	return p
 }
 
-func (p *promptPayBuilder) WithCurrency(code string) *promptPayBuilder {
+func (p *PromptPayBuilder) WithCurrency(code string) *PromptPayBuilder {
 	p.currency = code
 	return p
 }
 
-func (p *promptPayBuilder) WithCountry(code string) *promptPayBuilder {
+func (p *PromptPayBuilder) WithCountry(code string) *PromptPayBuilder {
 	p.country = code
 	return p
 }
 
-func (p *promptPayBuilder) WithBankAccount(number string) *promptPayBuilder {
+func (p *PromptPayBuilder) WithBankAccount(number string) *PromptPayBuilder {
 	p.target = number
 	p.targetType = SUBTAG_BANK_ACCOUNT
 	return p
 }
 
-func (p *promptPayBuilder) WithEWallet(id string) (*promptPayBuilder, error) {
+func (p *PromptPayBuilder) WithEWallet(id string) (*PromptPayBuilder, error) {
 	if len(id) != 15 {
 		return nil, ErrInvalidEWallet
 	}
@@ -60,11 +60,11 @@ func (p *promptPayBuilder) WithEWallet(id string) (*promptPayBuilder, error) {
 	return p, nil
 }
 
-func (p *promptPayBuilder) WithTaxId(id string) (*promptPayBuilder, error) {
+func (p *PromptPayBuilder) WithTaxId(id string) (*PromptPayBuilder, error) {
 	return p.WithNationalID(id)
 }
 
-func (p *promptPayBuilder) WithNationalID(id string) (*promptPayBuilder, error) {
+func (p *PromptPayBuilder) WithNationalID(id string) (*PromptPayBuilder, error) {
 	if len(id) != 13 {
 		return nil, ErrInvalidNationalId
 	}
@@ -75,7 +75,7 @@ func (p *promptPayBuilder) WithNationalID(id string) (*promptPayBuilder, error) 
 	return p, nil
 }
 
-func (p *promptPayBuilder) WithPhoneNumber(number, countryCode string) (*promptPayBuilder, error) {
+func (p *PromptPayBuilder) WithPhoneNumber(number, countryCode string) (*PromptPayBuilder, error) {
 	sanitizedPhoneNumber, err := sanitizePhoneNumber(number, countryCode)
 	if err != nil {
 		return nil, err
@@ -86,22 +86,22 @@ func (p *promptPayBuilder) WithPhoneNumber(number, countryCode string) (*promptP
 	return p, nil
 }
 
-func (p *promptPayBuilder) WithCustomerPresentedQR() *promptPayBuilder {
+func (p *PromptPayBuilder) WithCustomerPresentedQR() *PromptPayBuilder {
 	p.aid = CUSTOMER_PRESENTED_QR
 	return p
 }
 
-func (p *promptPayBuilder) WithMerchantPresentedQR() *promptPayBuilder {
+func (p *PromptPayBuilder) WithMerchantPresentedQR() *PromptPayBuilder {
 	p.aid = MERCHANT_PRESENTED_QR
 	return p
 }
 
-func (p *promptPayBuilder) WithMultipleUse() *promptPayBuilder {
+func (p *PromptPayBuilder) WithMultipleUse() *PromptPayBuilder {
 	p.initiationMethod = MULTIPLE_USE
 	return p
 }
 
-func (p *promptPayBuilder) WithSingleUse() *promptPayBuilder {
+func (p *PromptPayBuilder) WithSingleUse() *PromptPayBuilder {
 	p.initiationMethod = SINGLE_USE
 	return p
 }
