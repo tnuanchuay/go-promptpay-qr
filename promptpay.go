@@ -37,6 +37,8 @@ var (
 	ErrInvalidMerchantIdentifierCreditTransfer = errors.New("merchant identifier credit transfer(aid) is invalid")
 	ErrInvalidPhoneNumber                      = errors.New("phone number is invalid")
 	ErrInvalidTargetType                       = errors.New("target type is invalid")
+	ErrInvalidNationalId                       = errors.New("national id is invalid")
+	ErrInvalidEWallet                          = errors.New("e wallet id is invalid")
 )
 
 var (
@@ -82,7 +84,6 @@ func Generate(
 	}
 
 	serialized := fmt.Sprintf("%s%s%s", strings.Join(data, ""), TAG_CRC, "04")
-	fmt.Println(serialized)
 	checksum := crc16.Checksum([]byte(serialized), crcTable)
 	data = append(data,
 		buildField(TAG_CRC, fmt.Sprintf("%x", checksum)))
