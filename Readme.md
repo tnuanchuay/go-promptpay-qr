@@ -24,7 +24,6 @@ code, _ := builder.Build()
 
 ### Build the CLI
 ```
-in  cli folder
-$go build -o cli *.go
+$go build -o cli cli/*.go
 ```
  
